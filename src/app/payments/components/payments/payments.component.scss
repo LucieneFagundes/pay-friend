@@ -1,0 +1,38 @@
+h1 {
+  font-weight: 500;
+  margin: 0;
+}
+
+.button-container {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 20px;
+}
+
+.mat-raised-button {
+  text-transform: uppercase;
+  font-size: .75rem;
+}
+
+.mat-table {
+  margin-top: 10px;
+}
+
+.cell-container{
+  display: flex;
+  flex-direction: column;
+}
+
+.cell-container span:last-child {
+  font-size: 10px;
+  color: #85898c;
+}
+
+.mat-column-actions {
+  width: 150px;
+  text-align: end;
+}
+
+mat-icon {
+  fill: none;
+}
