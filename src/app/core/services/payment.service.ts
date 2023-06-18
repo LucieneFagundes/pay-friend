@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { env } from 'src/app/environments/environments';
+import { env } from 'src/environments/environments';
 import { Payment } from '../models/payment.model';
 
 @Injectable({
