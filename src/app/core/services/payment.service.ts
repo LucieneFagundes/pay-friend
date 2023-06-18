@@ -4,7 +4,6 @@ import { Observable, tap } from 'rxjs';
 import { env } from 'src/app/environments/environments';
 import { Payment } from '../models/payment.model';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -14,6 +13,11 @@ export class PaymentService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<Payment[]> {
-    return this.http.get<Payment[]>(this.paymentUrl)
+    return this.http.get<Payment[]>(this.paymentUrl);
+  }
+
+  create(payment: Payment): Observable<Payment> {
+    console.log(payment);
+    return this.http.post<any>(this.paymentUrl, payment);
   }
 }

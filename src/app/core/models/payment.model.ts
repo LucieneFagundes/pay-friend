@@ -1,6 +1,6 @@
 
 export interface Payment {
-  id: number,
+  id: string,
   name: string,
   username: string,
   title: string,

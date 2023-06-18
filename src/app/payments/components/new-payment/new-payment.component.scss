@@ -1,0 +1,28 @@
+.mat-dialog-title {
+  margin: 0;
+  padding: 8px 24px
+}
+
+.mat-dialog-content{
+  padding: 8px 24px;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: 45% 45%;
+  grid-template-rows: 1fr 1fr;
+  justify-content: space-between;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 90%;
+    grid-template-rows: 1fr;
+  }
+}
+
+.mat-dialog-actions{
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  gap: 10px;
+  padding: 8px 24px;
+}
