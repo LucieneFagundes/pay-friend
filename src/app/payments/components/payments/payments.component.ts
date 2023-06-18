@@ -57,6 +57,29 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
+  openEditPayment(payment: Payment): void {
+    const dialogRef = this.dialog.open(NewPaymentComponent, {
+      data: payment,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.valid) {
+        const payment: Payment = {
+          id: result.value.id,
+          name: result.value.name,
+          username: result.value.username,
+          value: result.value.value,
+          date: new Date(result.value.date),
+          title: result.value.title,
+          isPayed: false,
+        };
+        this.paymentService.save(payment).subscribe(() => this.getPayments());
+      }
+
+
+    });
+  }
+
   deletePayment(payment: Payment): void {
     const dialogData: DialogData = {
       cancelText: 'Cancelar',
@@ -72,7 +95,7 @@ export class PaymentsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.paymentService.delete(payment).subscribe(() => {
-          this.getPayments()
+          this.getPayments();
         });
       }
     });

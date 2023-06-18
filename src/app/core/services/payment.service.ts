@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { env } from 'src/environments/environments';
 import { Payment } from '../models/payment.model';
 
@@ -18,6 +18,13 @@ export class PaymentService {
 
   delete(payment: Payment): Observable<any> {
     return this.http.delete<any>(`${this.paymentUrl}/${payment.id}`);
+  }
+
+  save(payment: Payment): Observable<Payment> {
+    return this.http.put<Payment>(
+      `${this.paymentUrl}/${payment.id}`,
+      payment
+    );
   }
 
   create(payment: Payment): Observable<Payment> {
