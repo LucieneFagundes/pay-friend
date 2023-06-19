@@ -1,9 +1,9 @@
 .mat-dialog-title {
   margin: 0;
-  padding: 8px 24px
+  padding: 8px 24px;
 }
 
-.mat-dialog-content{
+.mat-dialog-content {
   padding: 8px 24px;
 }
 
@@ -13,13 +13,29 @@
   grid-template-rows: 1fr 1fr;
   justify-content: space-between;
 
+  width: 600px;
+
+  mat-form-field {
+    width: 250px;
+  }
+
   @media (max-width: 600px) {
     grid-template-columns: 90%;
     grid-template-rows: 1fr;
+
+    width: 100%;
+
+    mat-form-field {
+      width: 100%;
+    }
   }
 }
 
-.mat-dialog-actions{
+input {
+  border: 0;
+}
+
+.mat-dialog-actions {
   display: flex;
   flex-direction: row;
   justify-content: end;
