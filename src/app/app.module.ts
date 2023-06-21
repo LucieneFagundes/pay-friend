@@ -20,7 +20,6 @@ registerLocaleData(ptBr)
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-
     CoreModule,
     PaymentsModule,
   ],

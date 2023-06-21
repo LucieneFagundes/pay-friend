@@ -43,3 +43,6 @@ Thumbs.db
 
 # Fake Database
 src/db.json
+
+# Others
+todo-list.txt

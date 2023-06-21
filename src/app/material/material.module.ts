@@ -7,6 +7,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 const MODULES = [
   MatButtonModule,
@@ -15,6 +16,7 @@ const MODULES = [
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatPaginatorModule,
   MatTableModule,
   MatToolbarModule,
 ];

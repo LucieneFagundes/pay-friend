@@ -16,15 +16,18 @@ export class PaymentService {
     return this.http.get<Payment[]>(this.paymentUrl);
   }
 
+  getWithPage(page: number, limit: number): Observable<Payment[]> {
+    return this.http.get<Payment[]>(
+      `${this.paymentUrl}?_page=${page}&_limit=${limit}`
+    );
+  }
+
   delete(payment: Payment): Observable<any> {
     return this.http.delete<any>(`${this.paymentUrl}/${payment.id}`);
   }
 
   save(payment: Payment): Observable<Payment> {
-    return this.http.put<Payment>(
-      `${this.paymentUrl}/${payment.id}`,
-      payment
-    );
+    return this.http.put<Payment>(`${this.paymentUrl}/${payment.id}`, payment);
   }
 
   create(payment: Payment): Observable<Payment> {
