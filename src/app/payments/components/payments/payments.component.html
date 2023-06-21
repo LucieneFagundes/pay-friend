@@ -12,6 +12,14 @@
     </button>
   </div>
 
+  <app-paginator
+    [length]="totalSize"
+    [pageSize]="pageSize"
+    [pageIndex]="currentPage"
+    itemsPerPageLabel="Exibir"
+    (pageEvent)="setCurrentPage($event)"
+  ></app-paginator>
+
   <table mat-table [dataSource]="payments" class="mat-elevation-z1">
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Usuário</th>
@@ -31,7 +39,6 @@
       <th mat-header-cell *matHeaderCellDef>Título</th>
       <td mat-cell *matCellDef="let element">{{ element.title }}</td>
     </ng-container>
-payments
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef>Data</th>
       <td mat-cell *matCellDef="let element">
@@ -86,13 +93,5 @@ payments
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
-  <mat-paginator
-    #paginator
-    [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 15]"
-    [length]="totalSize"
-    [pageIndex]="currentPage"
-    (page)="handlePage($event)"
-  >
-  </mat-paginator>
+
 </div>

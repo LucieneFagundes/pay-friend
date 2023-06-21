@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { env } from 'src/environments/environments';
 import { Payment } from '../models/payment.model';
@@ -16,9 +16,15 @@ export class PaymentService {
     return this.http.get<Payment[]>(this.paymentUrl);
   }
 
-  getWithPage(page: number, limit: number): Observable<Payment[]> {
+  getWithPage(
+    page: number,
+    limit: number
+  ): Observable<HttpResponse<Payment[]>> {
     return this.http.get<Payment[]>(
-      `${this.paymentUrl}?_page=${page}&_limit=${limit}`
+      `${this.paymentUrl}?_page=${page}&_limit=${limit}`,
+      {
+        observe: 'response',
+      }
     );
   }
 
