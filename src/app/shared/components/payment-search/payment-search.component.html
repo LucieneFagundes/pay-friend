@@ -1,0 +1,13 @@
+<mat-form-field appearance="outline">
+  <mat-label>{{ label }} </mat-label>
+  <input matInput type="text" #searchBox (input)="search(searchBox.value)" />
+
+  <button
+    mat-icon-button
+    matSuffix
+    *ngIf="searchBox.value"
+    (click)="cancel(); searchBox.value = ''"
+  >
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-form-field>

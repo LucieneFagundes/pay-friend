@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from 'src/app/core/components/confirm-dialog/confirm-dialog.component';
+import { DialogData } from 'src/app/core/models/dialog-data.model';
 import { Payment } from 'src/app/core/models/payment.model';
 import { PaymentService } from 'src/app/core/services/payment.service';
-import { NewPaymentComponent } from '../new-payment/new-payment.component';
 import * as uuid from 'uuid';
-import { DialogData } from 'src/app/core/models/dialog-data.model';
-import { ConfirmDialogComponent } from 'src/app/core/components/confirm-dialog/confirm-dialog.component';
+import { NewPaymentComponent } from '../new-payment/new-payment.component';
 
 @Component({
   selector: 'app-payments',
@@ -22,6 +22,9 @@ export class PaymentsComponent implements OnInit {
     'isPayed',
     'actions',
   ];
+
+  isFiltering: boolean = false;
+  keySearch: string = '';
 
   // Paginator
   pageSize: number = 5;
@@ -41,10 +44,35 @@ export class PaymentsComponent implements OnInit {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
 
-    this.getPayments(this.currentPage, this.pageSize);
+    if (this.isFiltering) {
+      this.paymentService
+        .search(this.keySearch, this.currentPage + 1, this.pageSize)
+        .subscribe((response) => {
+          this.payments = response.body!;
+          this.totalSize = Number(response.headers.get('X-Total-Count'));
+        });
+    } else {
+      this.getPayments(this.currentPage, this.pageSize);
+    }
   }
 
-  getPayments(currentPage: number = 1, pageSize: number = 5): void {
+  handleSearch(term: string): void {
+    this.keySearch = term;
+    if (term.length <= 0) {
+      this.getPayments();
+      this.isFiltering = false;
+    } else {
+      this.isFiltering = true;
+      this.paymentService
+        .search(term, this.currentPage + 1, this.pageSize)
+        .subscribe((response) => {
+          this.payments = response.body!;
+          this.totalSize = Number(response.headers.get('X-Total-Count'));
+        });
+    }
+  }
+
+  getPayments(currentPage: number = 0, pageSize: number = 5): void {
     this.paymentService
       .getWithPage(currentPage + 1, pageSize)
       .subscribe((response) => {

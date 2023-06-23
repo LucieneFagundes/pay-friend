@@ -12,13 +12,10 @@
     </button>
   </div>
 
-  <app-paginator
-    [length]="totalSize"
-    [pageSize]="pageSize"
-    [pageIndex]="currentPage"
-    itemsPerPageLabel="Exibir"
-    (pageEvent)="setCurrentPage($event)"
-  ></app-paginator>
+  <app-payment-search
+    label="Pesquisar por usuário"
+    (searchEmitter)="handleSearch($event)"
+  ></app-payment-search>
 
   <table mat-table [dataSource]="payments" class="mat-elevation-z1">
     <ng-container matColumnDef="name">
@@ -94,4 +91,11 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 
+  <app-paginator
+    [length]="totalSize"
+    [pageSize]="pageSize"
+    [pageIndex]="currentPage"
+    itemsPerPageLabel="Exibir"
+    (pageEvent)="setCurrentPage($event)"
+  ></app-paginator>
 </div>

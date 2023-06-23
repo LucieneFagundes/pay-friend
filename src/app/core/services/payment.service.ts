@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import {
+  Observable
+} from 'rxjs';
 import { env } from 'src/environments/environments';
 import { Payment } from '../models/payment.model';
 
@@ -22,6 +24,21 @@ export class PaymentService {
   ): Observable<HttpResponse<Payment[]>> {
     return this.http.get<Payment[]>(
       `${this.paymentUrl}?_page=${page}&_limit=${limit}`,
+      {
+        observe: 'response',
+      }
+    );
+  }
+
+  search(
+    term: string,
+    page?: number,
+    limit?: number
+  ): Observable<HttpResponse<Payment[]>> {
+    return this.http.get<Payment[]>(
+      `${this.paymentUrl}?name_like=${term}${
+        page ? `&_page=${page}&_limit=${limit}` : ``
+      }`,
       {
         observe: 'response',
       }
