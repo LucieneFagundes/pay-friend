@@ -28,7 +28,6 @@ export class PaymentsComponent implements OnInit {
   searchTerm: string = '';
   private searchSubject: Subject<string> = new Subject<string>();
 
-  // Paginator
   pageSize: number = 5;
   currentPage: number = 0;
   totalSize: number = 0;
@@ -47,7 +46,17 @@ export class PaymentsComponent implements OnInit {
       });
   }
 
-  setCurrentPage(e: any) {
+
+  getPayments(currentPage: number = 0, pageSize: number = 5): void {
+    this.paymentService
+      .getAll(currentPage + 1, pageSize)
+      .subscribe((response) => {
+        this.payments = response.body!;
+        this.totalSize = Number(response.headers.get('X-Total-Count'));
+      });
+  }
+
+  handlePageEvent(e: any) {
     this.currentPage = e.pageIndex;
     this.pageSize = e.pageSize;
 
@@ -83,16 +92,7 @@ export class PaymentsComponent implements OnInit {
     }
   }
 
-  getPayments(currentPage: number = 0, pageSize: number = 5): void {
-    this.paymentService
-      .getWithPage(currentPage + 1, pageSize)
-      .subscribe((response) => {
-        this.payments = response.body!;
-        this.totalSize = Number(response.headers.get('X-Total-Count'));
-      });
-  }
-
-  openNewPayment(): void {
+  handleNewPayment(): void {
     const dialogRef = this.dialog.open(NewPaymentComponent);
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -111,7 +111,7 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  openEditPayment(payment: Payment): void {
+  handleEditPayment(payment: Payment): void {
     const dialogRef = this.dialog.open(NewPaymentComponent, {
       data: payment,
     });
@@ -132,7 +132,7 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
-  deletePayment(payment: Payment): void {
+  handleDeletePayment(payment: Payment): void {
     const dialogData: DialogData = {
       cancelText: 'Cancelar',
       confirmText: 'Apagar',

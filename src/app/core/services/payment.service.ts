@@ -14,11 +14,7 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Payment[]> {
-    return this.http.get<Payment[]>(this.paymentUrl);
-  }
-
-  getWithPage(
+  getAll(
     page: number,
     limit: number
   ): Observable<HttpResponse<Payment[]>> {
