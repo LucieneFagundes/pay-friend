@@ -6,6 +6,7 @@ import { Payment } from 'src/app/core/models/payment.model';
 import { PaymentService } from 'src/app/core/services/payment.service';
 import * as uuid from 'uuid';
 import { NewPaymentComponent } from '../new-payment/new-payment.component';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-payments',
@@ -24,7 +25,8 @@ export class PaymentsComponent implements OnInit {
   ];
 
   isFiltering: boolean = false;
-  keySearch: string = '';
+  searchTerm: string = '';
+  private searchSubject: Subject<string> = new Subject<string>();
 
   // Paginator
   pageSize: number = 5;
@@ -38,6 +40,11 @@ export class PaymentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPayments();
+    this.searchSubject
+      .pipe(debounceTime(600), distinctUntilChanged())
+      .subscribe((term: string) => {
+        this.handleDelayedSearch(term);
+      });
   }
 
   setCurrentPage(e: any) {
@@ -46,7 +53,7 @@ export class PaymentsComponent implements OnInit {
 
     if (this.isFiltering) {
       this.paymentService
-        .search(this.keySearch, this.currentPage + 1, this.pageSize)
+        .search(this.searchTerm, this.currentPage + 1, this.pageSize)
         .subscribe((response) => {
           this.payments = response.body!;
           this.totalSize = Number(response.headers.get('X-Total-Count'));
@@ -57,7 +64,11 @@ export class PaymentsComponent implements OnInit {
   }
 
   handleSearch(term: string): void {
-    this.keySearch = term;
+    this.searchSubject.next(term);
+  }
+
+  handleDelayedSearch(term: string): void {
+    this.searchTerm = term;
     if (term.length <= 0) {
       this.getPayments();
       this.isFiltering = false;
