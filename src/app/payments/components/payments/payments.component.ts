@@ -7,6 +7,7 @@ import { PaymentService } from 'src/app/core/services/payment.service';
 import * as uuid from 'uuid';
 import { NewPaymentComponent } from '../new-payment/new-payment.component';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-payments',
@@ -24,6 +25,8 @@ export class PaymentsComponent implements OnInit {
     'actions',
   ];
 
+  sortedData: Payment[];
+
   isFiltering: boolean = false;
   searchTerm: string = '';
   private searchSubject: Subject<string> = new Subject<string>();
@@ -35,7 +38,9 @@ export class PaymentsComponent implements OnInit {
   constructor(
     private paymentService: PaymentService,
     private dialog: MatDialog
-  ) {}
+  ) {
+    this.sortedData = this.payments.slice();
+  }
 
   ngOnInit(): void {
     this.getPayments();
@@ -46,7 +51,6 @@ export class PaymentsComponent implements OnInit {
       });
   }
 
-
   getPayments(currentPage: number = 0, pageSize: number = 5): void {
     this.paymentService
       .getAll(currentPage + 1, pageSize)
@@ -54,6 +58,35 @@ export class PaymentsComponent implements OnInit {
         this.payments = response.body!;
         this.totalSize = Number(response.headers.get('X-Total-Count'));
       });
+  }
+
+  sortData(sort: Sort): void {
+    const data = this.payments.slice();
+
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'name':
+          return this.compare(a.name, b.name, isAsc);
+        case 'title':
+          return this.compare(a.title, b.title, isAsc);
+        case 'date':
+          return this.compare(a.date, b.date, isAsc);
+        case 'value':
+          return this.compare(a.value, b.value, isAsc);
+        case 'isPayed':
+          return this.compare(Number(a.isPayed), Number(b.isPayed), isAsc);
+        default:
+          return 0;
+      }
+    });
+
+    this.payments = this.sortedData;
   }
 
   handlePageEvent(e: any) {
@@ -151,5 +184,19 @@ export class PaymentsComponent implements OnInit {
         });
       }
     });
+  }
+
+  private compare(
+    a: number | string | Date,
+    b: number | string | Date,
+    isAsc: boolean
+  ) {
+    if (a instanceof Date && b instanceof Date) {
+      const dateA = a.getTime();
+      const dateB = b.getTime();
+      return (dateA < dateB ? -1 : 1) * (isAsc ? 1 : -1);
+    } else {
+      return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+    }
   }
 }
