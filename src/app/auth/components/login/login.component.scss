@@ -1,0 +1,28 @@
+.container{
+  display: flex;
+  flex-direction: row;
+}
+
+.container > .login-box {
+  flex: 4;
+}
+
+.container > .photo-box {
+  flex: 5;
+}
+
+
+.login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background: #F2F2F2;
+  width: 100%;
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+}
