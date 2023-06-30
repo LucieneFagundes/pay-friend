@@ -1,18 +1,37 @@
 <div class="container">
   <div class="login-box">
     <h1>Bem-vindo de volta!</h1>
-    <form>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
-        <input matInput placeholder="Digite seu e-mail" />
+        <input
+          matInput
+          placeholder="Digite seu e-mail"
+          formControlName="email"
+          type="email"
+        />
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Senha</mat-label>
-        <input matInput placeholder="Digite sua senha" />
+        <input
+          matInput
+          placeholder="Digite sua senha"
+          formControlName="password"
+          type="password"
+        />
         <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+
+        <mat-error *ngIf="form.controls['password'].hasError('required')"
+          >Password is required</mat-error
+        >
+        <mat-error *ngIf="form.controls['password'].hasError('minlength')"
+          >Password should contain at least 6 caracters.</mat-error
+        >
       </mat-form-field>
       <button mat-raised-button color="primary" type="submit">Entrar</button>
     </form>
   </div>
-  <div class="photo-box">foto</div>
+  <div class="photo-box">
+    <img src="assets/images/image-login.png" alt="" />
+  </div>
 </div>

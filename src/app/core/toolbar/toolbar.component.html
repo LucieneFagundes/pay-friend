@@ -2,8 +2,12 @@
 
   <span><strong>Pay</strong>Friends</span>
 
-  <button mat-icon-button>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
     <mat-icon>account_circle</mat-icon>
   </button>
+
+  <mat-menu #menu="matMenu" xPosition="before">
+    <button mat-menu-item (click)="onLogout()">Sair</button>
+  </mat-menu>
 
 </mat-toolbar>

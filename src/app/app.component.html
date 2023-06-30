@@ -1,4 +1,6 @@
-<app-toolbar></app-toolbar>
+<app-toolbar *ngIf="isLoggedIn$ | async"
+(logout)="handleLogout()"
+></app-toolbar>
 <div class="container">
   <router-outlet></router-outlet>
 </div>
