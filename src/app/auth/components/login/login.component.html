@@ -17,9 +17,23 @@
           matInput
           placeholder="Digite sua senha"
           formControlName="password"
-          type="password"
+          [type]="type == 'visible' ? 'text' : 'password' "
         />
-        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+
+        <mat-icon
+          matSuffix
+          class="icon-visibility"
+          *ngIf="type == 'no-visible'"
+          (click)="type = 'visible'"
+          >visibility_off</mat-icon
+        >
+        <mat-icon
+          matSuffix
+          class="icon-visibility"
+          *ngIf="type == 'visible'"
+          (click)="type = 'no-visible'"
+          >visibility</mat-icon
+        >
 
         <mat-error *ngIf="form.controls['password'].hasError('required')"
           >Password is required</mat-error

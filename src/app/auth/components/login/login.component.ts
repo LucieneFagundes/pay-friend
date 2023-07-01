@@ -8,18 +8,19 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
+  type = 'no-visible'
+
   constructor(
     private formBuilder: UntypedFormBuilder,
     private authService: AuthService
   ) {}
 
   form = this.formBuilder.group({
-    email: ['', [Validators.email, Validators.required]],
-    password: ['', [Validators.minLength(6), Validators.required]],
+    email: ['usuario@gmail.com', [Validators.email, Validators.required]],
+    password: ['usuario', [Validators.minLength(6), Validators.required]],
   });
 
   onSubmit(): void {
-    console.log(this.form)
     if (this.form.valid) {
       this.authService.login(this.form.value);
     }
