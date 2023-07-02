@@ -186,6 +186,12 @@ export class PaymentsComponent implements OnInit {
     });
   }
 
+  handlePayed(paymentState: boolean, payment: Payment) {
+    payment.isPayed = paymentState;
+
+    this.paymentService.save(payment).subscribe();
+  }
+
   private compare(
     a: number | string | Date,
     b: number | string | Date,
